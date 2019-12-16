@@ -1,0 +1,118 @@
+﻿
+@model IEnumerable<LugoTechCrud.Models.Usuarios>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Usuarios</h4>
+<hr />
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellidos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nacionalidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                Accion
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.Estado == true)
+            {
+                @:<tr class="alert alert-success">
+            }else{
+                @:<tr class="alert alert-danger">
+            }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nacionalidad)
+                </td>
+                <td>
+
+                    @if (item.TipoUsuario == 0)
+                    {
+                        <text>Maestro</text>
+                    }
+                    else if (item.TipoUsuario == 1)
+                    {
+                        <text>Administrador</text>
+                    }
+                    else if (item.TipoUsuario == 2)
+                    {
+                        <text>Normal</text>
+                    }
+                </td>
+                <td>
+                    @if (item.Estado == true)
+                    {
+                        <text>Activado</text>
+                    }
+                    else
+                    {
+                        <text>Desactivado</text>
+                    }
+                </td>
+                <td>
+                    @if(item.TipoUsuario != 0) { 
+                    <a asp-action="AddOrEdit" asp-route-id="@item.Id"><i class="fa fa-marker fa-lg"></i>Editar</a>
+                    @if (item.Estado == true)
+                    {
+                        <a asp-action="ActivateOrDeactivate" asp-route-id="@item.Id" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i>Desactivar</a>
+                    }
+                    else if (item.Estado == false)
+                    {
+                        <a asp-action="ActivateOrDeactivate" asp-route-id="@item.Id" class="text-danger ml-1"><i class="fa fa-trash-alt fa-lg"></i>Activar</a>
+                    }
+                    }
+                    else
+                    {
+                        <text>Usuario Maestro</text>
+                    }
+
+                </td>
+            @:</tr>
+        }
+    </tbody>
+</table>
